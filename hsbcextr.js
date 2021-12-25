@@ -35,8 +35,8 @@ var renderers = {
 		});
 		// 2) generate output
 		var output = sta.ops.map(function(op){
-			//console.log(balance/100, "-", (op.debit||0), "+", (op.credit||0), balance/100 - (op.debit||0) + (op.credit||0));
-			//console.log(balance, "-", toCents(op.debit), "+", toCents(op.credit), balance - toCents(op.debit) + toCents(op.credit));
+			console.log(balance/100, "-", (op.debit||0), "+", (op.credit||0), balance/100 - (op.debit||0) + (op.credit||0));
+			console.log(balance, "-", toCents(op.debit), "+", toCents(op.credit), balance - toCents(op.debit) + toCents(op.credit));
 			return [
 				op.date + "." + (year - nbYears + op.yearOffset),
 				"\"" + op.text.replace(/[\"]+/g, "\\\"").replace("CB N\n", "CB N") + "\"",
@@ -47,7 +47,7 @@ var renderers = {
 				(balance = balance - toCents(op.debit) + toCents(op.credit)) / 100
 			].join(",");
 		}).join("\n");
-		//console.log(balance/100, " .. expected:", sta.balTo);
+		console.log(balance/100, " .. expected:", sta.balTo);
 		assert(Math.abs(balance - toCents(sta.balTo)) < 1, "unexpected computed balance value");
 		return output;
 	},
@@ -65,17 +65,17 @@ var renderers = {
 	"test": function(sta){
 		return [
 			"File: " + sta.filePath,
-			"Account number: " + sta.acctNum,
+			"Account Number: " + sta.acctNum,
 			"Period: from " + sta.dateFrom + " to " + sta.dateTo,
-			"Opening balance: " + sta.balFrom,
+			"Opening Balance: " + sta.balFrom,
 			" - - - - - - - ",
 		].concat(sta.ops.map(function(op){
 			return [op.date, op.text.replace(/[\n\s]+/g, " ").substr(0, 14), op.credit || -op.debit].join("\t");
 		})).concat([
 			" - - - - - - - ",
-			"Closing balance: " + sta.balTo,
-			"Total debit: " + sta.totDebit,
-			"Total credit: " + sta.totCredit,
+			"Closing Balance: " + sta.balTo,
+			"Total Debit: " + sta.totDebit,
+			"Total Credit: " + sta.totCredit,
 		]).join("\n");
 	},
 	"debug": function(sta){
@@ -97,7 +97,7 @@ var renderers = {
 			if (!pdfFilePath)
 				return;
 			var parser = new HsbcStatementParser({debug: process.argv[2] == "debug"});
-			//console.warn("\n___\nLoading " + pdfFilePath + " ...\n");
+			console.warn("\n___\nLoading " + pdfFilePath + " ...\n");
 			parser.parseFile(pdfFilePath, function(err, bankStatement){
 				try {
 					console.log(render(bankStatement));
