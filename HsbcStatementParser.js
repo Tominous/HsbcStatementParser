@@ -38,8 +38,8 @@ function HsbcCursor(lines){
 	var INTERMEDIATE_BALANCE = "NOUVEAU SOLDE DE DEBUT DE PERIODE";
 
 	this.detectColumns = function(){
-		//for (var i in OP_COLS)
-		//	colPos.push(cur.rawLine[1]);
+		for (var i in OP_COLS)
+			colPos.push(cur.rawLine[1]);
 		LOG("column positions\n" + OP_COLS.join("\t") + "\n\t" + colPos.join("\t"));
 		this.parseUntil(OP_COLS[OP_COLS.length-1]);
 	};
